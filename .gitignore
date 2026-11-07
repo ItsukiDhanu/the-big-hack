@@ -1,0 +1,26 @@
+# dependencies
+node_modules
+
+# build output
+build
+dist
+.react-router
+
+# deploy / env
+.vercel
+.env*
+
+# tooling
+graphify-out
+.playwright-cli
+.agents
+.claude
+skills-lock.json
+*.zip
+
+# internal notes
+handoff/
+BRIEF.md
+HANDOVER.md
+MAIN_SITE_CHANGES.md
+THE-BIG-HACK-BRIEF.md

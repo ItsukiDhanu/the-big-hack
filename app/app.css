@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@import "@fontsource-variable/jetbrains-mono";
+
+/*
+ * The Big Hack 2.0: terminal / hacker aesthetic.
+ * - Monospace everywhere (JetBrains Mono).
+ * - Phosphor green is the primary colour; amber, cyan and red behave like a terminal palette.
+ * - Faint scanlines and a staged build log on the home page. All motion stops under reduced motion.
+ * - Metaphors are about building and shipping (editor, git, CI), not breaking in.
+ */
+@theme {
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: var(--font-mono);
+
+  --color-bg: #08090a;
+  --color-panel: #0e1110;
+  --color-raise: #141917;
+  --color-line: #232b28;
+  --color-line-hi: #3a4743;
+  --color-fg: #dce5e1;
+  --color-dim: #8a9893;
+  --color-faint: #76837e;
+  --color-green: #8cff7a;
+  --color-green-ink: #062b02;
+  --color-amber: #ffb547;
+  --color-cyan: #5eead4;
+  --color-red: #ff5f56;
+  --color-magenta: #ff79c6;
+}
+
+@layer base {
+  html { color-scheme: dark; -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-bg font-mono text-fg antialiased; overflow-x: clip; font-variant-ligatures: contextual; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  :focus-visible { outline: 2px solid var(--color-green); outline-offset: 2px; }
+  button:not(:disabled), summary, label[for] { cursor: pointer; }
+  ::selection { background: var(--color-green); color: var(--color-green-ink); }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+
+  /* TUI pane: hairline box with its title sitting in the top border. */
+  .pane { @apply relative min-w-0 rounded-[4px] border border-line bg-panel; }
+  .pane-title { @apply absolute -top-[0.7rem] left-3 bg-bg px-2 text-xs text-dim; }
+
+  .glow { text-shadow: 0 0 12px rgb(140 255 122 / 0.45), 0 0 2px rgb(140 255 122 / 0.6); }
+  .glow-title { text-shadow: 0 0 22px rgb(140 255 122 / 0.35); }
+  .glow-soft { text-shadow: 0 0 18px rgb(140 255 122 / 0.25); }
+
+  /* Blinking block cursor. */
+  .cursor::after { content: "▌"; margin-left: 0.1em; color: var(--color-green); animation: blink 1.1s steps(1) infinite; }
+
+  /* Redacted text bar. */
+  .redact { @apply inline-block rounded-[2px] bg-fg/85 align-middle text-transparent select-none; }
+}
+
+/* CRT scanlines over the whole viewport. */
+.scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.014) 0 1px, transparent 1px 3px);
+}
+/* Dot grid behind the hero. */
+.dots {
+  background-image: radial-gradient(rgb(140 255 122 / 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 20%, transparent 75%);
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Boot log: lines appear one after another, then the title powers on. */
+@keyframes appear { to { opacity: 1; } }
+@keyframes power-on {
+  0% { opacity: 0; transform: scaleY(0.02); filter: brightness(3); }
+  40% { opacity: 1; transform: scaleY(1.05); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+.boot { opacity: 0; animation: appear 0s forwards; animation-delay: calc(var(--i) * 140ms); }
+.boot-title { opacity: 0; animation: power-on 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: calc(var(--i) * 140ms); transform-origin: center; }
+.no-boot .boot, .no-boot .boot-title { opacity: 1; animation: none; }
+
+/* Ticker tape. */
+@keyframes ticker { to { transform: translateX(-50%); } }
+.ticker-track { animation: ticker 40s linear infinite; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  .boot, .boot-title { opacity: 1; }
+}
