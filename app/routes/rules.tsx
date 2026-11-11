@@ -28,7 +28,7 @@ function Flag({ name, children }: { name: string; children: React.ReactNode }) {
 export default function Rules() {
   return (
     <>
-      <PageHead path="~/rules" cmd="man bighack" title="Rules" intro="The manual. Short version: submit an idea for free, get shortlisted, build it at the event, ship a working demo, be decent." />
+      <PageHead path="~/rules" cmd="man bighack" title="Rules" intro="The manual. Short version: submit an idea for free, get shortlisted, build what we assign at the event, ship a working demo, be decent." />
 
       <article className="wrap">
         <div className="pane overflow-hidden">

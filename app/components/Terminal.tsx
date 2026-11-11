@@ -64,7 +64,7 @@ export default function Terminal() {
         res = [
           out("out", "The Big Hack 2.0 is Tech Habba 2.0's flagship 24-hour hackathon."),
           out("out", `Round 1 is free and online: teams of ${FACTS.teamSize} pick an AI-agent track and submit an idea.`),
-          out("out", "Shortlisted teams build it over 24 hours at AIT, with meals and a midnight coffee break along the way."),
+          out("out", "Shortlisted teams get a problem statement and track from us and build it over 24 hours at AIT, with meals and a midnight coffee break along the way."),
           out("out", "The top teams pitch to the judges at the end."),
         ];
         break;
@@ -94,7 +94,7 @@ export default function Terminal() {
         res = [
           out("out", "1. pick a track and submit your idea online by 10 nov (free)"),
           out("out", "2. get shortlisted, then pay ₹800 per team to confirm"),
-          out("out", "3. build it in 24h at AIT. all code written during the event"),
+          out("out", "3. build the problem we assign in 24h at AIT. all code written during the event"),
           out("out", "4. submit repo + README + working demo before hacking ends"),
           out("out", "5. be decent. organiser and judge decisions are final"),
           out("out", <span className="text-dim">→ cd rules for the full manual</span>),

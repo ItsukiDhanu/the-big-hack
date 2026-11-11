@@ -50,10 +50,10 @@ export const ROUND2 = {
 export const ROUNDS = [
   { id: "round-1/idea", name: "Round 1: idea", mode: "online", fee: "free", when: "now → 10 Nov", note: "Pick a track, submit your idea" },
   { id: "review/shortlist", name: "Shortlist", mode: "review", fee: null, when: "a few days after 10 Nov", note: "Organisers review every idea" },
-  { id: "round-2/build", name: "Round 2: build", mode: "offline, AIT", fee: "₹800 / team", when: "20–21 Nov", note: "Shortlisted teams build it in 24h" },
+  { id: "round-2/build", name: "Round 2: build", mode: "offline, AIT", fee: "₹800 / team", when: "20–21 Nov", note: "Build an assigned problem in 24h" },
 ];
 
-/** Round 1 ideas pick one track; Round 2 builds that idea. Blurbs are drafts for the organisers to confirm. */
+/** Round 1 ideas pick one track; in Round 2 organisers assign each team a problem statement and track. Blurbs are drafts for the organisers to confirm. */
 export const TRACKS = [
   { slug: "autonomous", name: "Autonomous AI Agents", blurb: "Agents that plan, use tools and finish multi-step tasks on their own.", color: "green" },
   { slug: "voice-multimodal", name: "Voice & Multimodal AI Agents", blurb: "Agents that listen, speak and see: voice, images, video and documents.", color: "cyan" },
@@ -100,8 +100,8 @@ export const WINDOW_BREAKS = [
 export const RULES = [
   { title: "Round 1", body: "Free and online. Pick one of the five tracks and submit your team's idea through the form by 10 November, 11:59 PM IST." },
   { title: "Shortlisting", body: "The organisers review every idea and announce the shortlist a few days after Round 1 closes. Only shortlisted teams go to Round 2." },
-  { title: "Round 2", body: "Offline at AIT, 20–21 November. Shortlisted teams confirm their spot by paying ₹800 per team, then build their Round 1 idea in the same track." },
-  { title: "Build at the event", body: "Your idea can exist before the event, your code can't. All project code is written during the 24 hours. Open-source libraries, frameworks and APIs are allowed." },
+  { title: "Round 2", body: "Offline at AIT, 20–21 November. Shortlisted teams confirm their spot by paying ₹800 per team, then build a problem statement and track the organisers assign. It won't be their Round 1 idea." },
+  { title: "Build at the event", body: "You'll get your problem statement from the organisers, and no code can exist before the event. All project code is written during the 24 hours. Open-source libraries, frameworks and APIs are allowed." },
   { title: "Submission", body: "Submit a code repository, a short README and a working demo before hacking ends. Late submissions are not judged." },
   { title: "Conduct", body: "Be respectful to other teams, mentors and organisers. Organiser and judge decisions are final." },
 ];
@@ -131,7 +131,7 @@ export const FAQS = [
   { q: "What if we're not shortlisted?", a: "You don't pay anything. There are twelve other Tech Habba 2.0 events from 19 to 21 November you can still join." },
   { q: "Who can take part?", a: "Any college student. You don't need to be from AIT. Every team member needs a valid college ID card at check-in." },
   { q: "How big can a team be?", a: "Two to four people. Solo entries aren't accepted, so find at least one teammate before you submit." },
-  { q: "Can we switch track or idea in Round 2?", a: "No. Round 2 builds the idea you were shortlisted for, in the same track. You can refine it, but not swap it for a different one." },
+  { q: "Do we build our Round 1 idea in Round 2?", a: "No. Round 1 is how we shortlist. In Round 2 the organisers give each team its problem statement and track, and that's what you build." },
   { q: "Can we start building before the event?", a: "Plan as much as you like, but all project code has to be written during the 24 hours. You can use open-source libraries, frameworks and public APIs." },
   { q: "What do we have to submit?", a: "A code repository, a short README and a working demo, before hacking ends at 1:00 PM on 21 November. Late submissions are not judged." },
   { q: "Do we stay overnight?", a: "Yes. Hacking runs straight through from 1:00 PM on Friday to 1:00 PM on Saturday, with a midnight coffee break at 1:00 AM." },

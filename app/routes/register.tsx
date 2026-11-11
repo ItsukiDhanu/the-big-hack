@@ -35,7 +35,7 @@ export default function Register() {
         title="Submit your idea"
         intro={closed
           ? "Round 1 closed on 10 November 2026. The shortlist is announced a few days later; shortlisted teams confirm their spot below."
-          : <>Round 1 is <span className="text-green">free</span> and online: one form per team, closing 10 November at 11:59 PM IST. Think of it as opening a pull request. If it's merged (shortlisted), you pay {FACTS.round2Fee} and build it at AIT.</>}
+          : <>Round 1 is <span className="text-green">free</span> and online: one form per team, closing 10 November at 11:59 PM IST. Think of it as opening a pull request. If it's merged (shortlisted), you pay {FACTS.round2Fee} and build a problem statement we assign, at AIT.</>}
       />
 
       <div className="wrap mb-10">

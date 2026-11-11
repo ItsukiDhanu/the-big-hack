@@ -10,7 +10,7 @@ import { T, pad, phaseAt, split, useNow } from "~/lib/time";
 import { seo } from "~/lib/seo";
 
 export const meta: Route.MetaFunction = () =>
-  seo({ description: "The Big Hack 2.0: Tech Habba 2.0's 24-hour flagship hackathon at Acharya Institute of Technology, Bengaluru. Round 1 is free and online: pick an AI-agent track and submit your idea by 10 Nov. Shortlisted teams build it in 24 hours on 20–21 November 2026. ₹50,000 prize pool." });
+  seo({ description: "The Big Hack 2.0: Tech Habba 2.0's 24-hour flagship hackathon at Acharya Institute of Technology, Bengaluru. Round 1 is free and online: pick an AI-agent track and submit your idea by 10 Nov. Shortlisted teams build an assigned problem statement in 24 hours on 20–21 November 2026. ₹50,000 prize pool." });
 
 const BOOT = [
   { s: "✓", t: "scaffolding team ......... 2–4 members", c: "text-green" },
@@ -64,7 +64,7 @@ function Hero() {
             </p>
             <p className="mt-4 max-w-[54ch] text-sm leading-relaxed text-dim">
               <span className="text-green">Round 1 is free and online.</span> Pick an AI-agent track and submit your idea by 10 Nov.
-              Shortlisted teams build it in 24 hours at AIT.
+              Shortlisted teams get a problem statement from us and build it in 24 hours at AIT.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <RegisterBtn />
@@ -148,7 +148,7 @@ function Rounds() {
       <h2 id="rounds-h" className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Two rounds. The first one's free.</h2>
       <p className="mt-4 max-w-[60ch] leading-relaxed text-dim">
         Submit your idea online for free. The organisers shortlist the best ones, and only those teams pay{" "}
-        {FACTS.round2Fee} to build them at AIT over 24 hours.
+        {FACTS.round2Fee} for Round 2: 24 hours at AIT, building a problem statement and track we assign.
       </p>
       <Pipeline className="mt-10" />
       <div className="mt-10">
@@ -177,7 +177,7 @@ function Overview() {
         <Prompt cmd="code ." />
         <h2 id="overview-h" className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Idea at lunch. Demo by lunch.</h2>
         <p className="mt-4 max-w-[42ch] leading-relaxed text-dim">
-          Shortlisted teams of 2–4 turn their Round 1 idea into a working AI agent over 24 hours. Then they ship
+          Shortlisted teams of 2–4 get a problem statement and track from us and turn it into a working AI agent over 24 hours. Then they ship
           the repo, a README and a live demo, and pitch it.
         </p>
         <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-[4px] border border-line bg-line text-sm">
@@ -209,7 +209,7 @@ function Overview() {
 
 /** Illustrative commit history of a team's 24 hours, pinned to the real schedule. */
 const COMMITS = [
-  { h: "a1f3c9e", t: "fri 13:04", m: "chore: init repo, shortlisted idea checked out", tag: "HEAD~11" },
+  { h: "a1f3c9e", t: "fri 13:04", m: "chore: init repo, assigned problem checked out", tag: "HEAD~11" },
   { h: "b72d014", t: "fri 14:30", m: "feat: wireframes and data model" },
   { h: "c0e88a1", t: "fri 17:40", m: "chore: evening snacks", meal: true },
   { h: "d41f6b2", t: "fri 19:15", m: "feat: core flow works end to end" },

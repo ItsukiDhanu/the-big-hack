@@ -22,7 +22,7 @@ const FILES: File[] = [
       <><K c="if" /> (!(<K c="await" /> <F c="shortlisted" />(idea))) <K c="return" />; <C c="// ₹800 if you are" /></>,
       <><F c="clock" />.<F c="start" />(<S c='"2026-11-20T13:00+05:30"' />, {"{"} hours: <N c={24} /> {"}"});</>,
       <><K c="while" /> (clock.remaining {">"} <N c={0} />) {"{"}</>,
-      <>  <F c="build" />(idea); <C c="// an AI agent" /></>,
+      <>  <F c="build" />(<F c="assigned" />(team)); <C c="// our problem, our track" /></>,
       <>  <K c="if" /> (clock.<F c="is" />(<S c='"01:00"' />)) <F c="coffee" />(); <C c="// midnight coffee" /></>,
       <>{"}"}</>,
       <></>,

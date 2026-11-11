@@ -60,8 +60,8 @@ export default function Prizes() {
             <Prompt path="~/prizes" cmd="gh issue list --label track" />
             <h2 id="ps-h" className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Five tracks, all AI agents</h2>
             <p className="mt-4 max-w-[46ch] leading-relaxed text-dim">
-              Pick one when you submit your Round 1 idea. If you're shortlisted, you build that same idea in the same
-              track at AIT. Every track is about agents: software that doesn't just answer, but acts.
+              Pick one when you submit your Round 1 idea. In Round 2 the organisers give each shortlisted team its
+              problem statement and track to build at AIT. Every track is about agents: software that doesn't just answer, but acts.
             </p>
           </div>
 
