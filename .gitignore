@@ -9,6 +9,10 @@ dist
 # deploy / env
 .vercel
 .env*
+!.env.example
+.admin-password
+*.csv
+/toofan-payment-qr.png
 
 # tooling
 graphify-out

@@ -14,7 +14,7 @@ export function seo({ title, description, path = "/" }: { title?: string; descri
     { property: "og:image", content: `${SITE.url}/og.png` },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
-    { property: "og:image:alt", content: "The Big Hack 2.0: 24-hour hackathon, 20–21 Nov 2026, AIT Bengaluru, ₹50,000 prize pool. Round 1 is free: submit by 10 Nov" },
+    { property: "og:image:alt", content: "The Big Hack 2026: event updates, team shortlist and payment confirmation information." },
     { name: "twitter:card", content: "summary_large_image" },
     { tagName: "link", rel: "canonical", href: url },
   ];

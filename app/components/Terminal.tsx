@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { CLUB, CONTACTS, FACTS, PAGES, REGISTER_URL, ROUNDS, SCHEDULE, TRACKS } from "~/data/hack";
+import { CLUB, CONTACTS, FACTS, PAGES, ROUNDS, SCHEDULE, TRACKS } from "~/data/hack";
 import { T, phaseAt, tminus } from "~/lib/time";
 
 type Line = { kind: "in" | "out" | "err" | "ok"; text: React.ReactNode };
@@ -13,7 +13,7 @@ const HELP: [string, string][] = [
   ["schedule", "the two-day timeline"],
   ["prizes", "prize pool"],
   ["rules", "the short version"],
-  ["register", "submit your idea (round 1, free)"],
+  ["register", "round status and event contacts"],
   ["contact", "event heads"],
   ["date", "time left on the clock"],
   ["ls", "list pages"],
@@ -22,16 +22,17 @@ const HELP: [string, string][] = [
   ["clear", "clear the screen"],
 ];
 
-const COMMANDS = [...HELP.map(([c]) => c.split(" ")[0]), "whoami", "coffee", "sudo", "git", "ship", "npm", "exit"];
+const COMMANDS = [...HELP.map(([c]) => c.split(" ")[0]), "whoami", "tea", "sudo", "git", "ship", "npm", "exit"];
 
-const SUGGEST = ["help", "rounds", "tracks", "git push", "sudo rm -rf /", "register"];
+const SUGGEST = ["help", "rounds", "tracks", "git push", "sudo rm -rf /", "cd announcements"];
+const MAX_LINES = 200;
 
 const WELCOME: Line[] = [
   { kind: "out", text: "the-big-hack dev shell, node 24, branch main" },
   { kind: "out", text: <>Type <b className="text-green">help</b> to see what you can do. Tap a command below if you're on a phone.</> },
 ];
 
-/** A small fake shell. Commands print event info; `cd` and `register` actually navigate. */
+/** A small fake shell. Commands print event info; `cd` navigates between pages. */
 export default function Terminal() {
   const [lines, setLines] = useState<Line[]>(WELCOME);
   const [value, setValue] = useState("");
@@ -49,7 +50,7 @@ export default function Terminal() {
   function run(raw: string) {
     const input = raw.trim();
     const echo: Line = { kind: "in", text: input };
-    if (!input) return setLines((l) => [...l, echo]);
+    if (!input) return setLines((l) => [...l, echo].slice(-MAX_LINES));
     setHistory((h) => [input, ...h].slice(0, 50));
     setHIndex(-1);
     const [cmd, ...args] = input.split(/\s+/);
@@ -63,21 +64,21 @@ export default function Terminal() {
       case "about":
         res = [
           out("out", "The Big Hack 2.0 is Tech Habba 2.0's flagship 24-hour hackathon."),
-          out("out", `Round 1 is free and online: teams of ${FACTS.teamSize} pick an AI-agent track and submit an idea.`),
-          out("out", "Shortlisted teams get a problem statement and track from us and build it over 24 hours at AIT, with meals and a midnight coffee break along the way."),
+          out("out", `Round 1 was free and online: teams of ${FACTS.teamSize} picked an AI-agent track and submitted an idea.`),
+          out("out", "Shortlisted teams get a problem statement and track from us and build it over 24 hours at AIT, with dinner, midnight tea and morning tea along the way."),
           out("out", "The top teams pitch to the judges at the end."),
         ];
         break;
       case "rounds":
         res = [
           ...ROUNDS.map((r, i) => out("out", <><span className="text-green">{i + 1}. {r.id.padEnd(17)}</span><span className="text-dim">{r.mode}, {r.when}{r.fee ? `, ${r.fee}` : ""}</span></>)),
-          out("out", <span className="text-dim">round 1 is free. you only pay if you're shortlisted.</span>),
+          out("out", <span className="text-dim">round 1 was free. run `cd teams` to browse confirmed seats.</span>),
         ];
         break;
       case "tracks":
         res = [
           ...TRACKS.map((t) => out("out", <><span className="inline-block w-44 text-cyan">{t.slug}/</span>{t.name}</>)),
-          out("out", <span className="text-dim">→ cd prizes for details. pick one when you register.</span>),
+          out("out", <span className="text-dim">→ cd prizes for track details. Round 1 is closed.</span>),
         ];
         break;
       case "schedule":
@@ -92,8 +93,8 @@ export default function Terminal() {
         break;
       case "rules":
         res = [
-          out("out", "1. pick a track and submit your idea online by 10 nov (free)"),
-          out("out", "2. get shortlisted, then pay ₹800 per team to confirm"),
+          out("out", "1. Round 1 is closed; confirmed seats are listed under teams"),
+          out("out", "2. selected teams pay ₹800/team, upload proof and wait for organiser review"),
           out("out", "3. build the problem we assign in 24h at AIT. all code written during the event"),
           out("out", "4. submit repo + README + working demo before hacking ends"),
           out("out", "5. be decent. organiser and judge decisions are final"),
@@ -101,12 +102,7 @@ export default function Terminal() {
         ];
         break;
       case "register":
-        if (Date.now() >= T.regClose) {
-          res = [out("err", `round 1 closed on ${FACTS.deadline}. shortlisted? see cd register to confirm your spot.`)];
-          break;
-        }
-        window.open(REGISTER_URL, "_blank", "noopener,noreferrer");
-        res = [out("ok", `Opening the round 1 form… free, teams of ${FACTS.teamSize}. Closes ${FACTS.deadline}.`)];
+        res = [out("out", `Round 1 closed on ${FACTS.deadline}. Use 'cd teams' to browse confirmed seats; 'cd announcements' explains payment review.`)];
         break;
       case "contact":
         res = [
@@ -143,31 +139,31 @@ export default function Terminal() {
         setLines([]);
         return;
       case "whoami":
-        res = [out("out", "guest. no idea submitted yet. run `register` to fix that.")];
+        res = [out("out", "guest. no submission is open. run `cd teams` to browse confirmed seats or `cd announcements` for next steps.")];
         break;
-      case "coffee":
-        res = [out("ok", "☕ Midnight coffee is served at 1:00 AM on Saturday.")];
+      case "tea":
+        res = [out("ok", "☕ Midnight tea is served at 1:00 AM and morning tea at 5:00 AM on Saturday.")];
         break;
       case "sudo": {
         const rest = args.join(" ").toLowerCase();
         res =
           rest.startsWith("rm") ? [out("err", "Nice try. The only thing getting deleted here is your sleep schedule.")]
-          : rest.startsWith("make") && rest.includes("sandwich") ? [out("ok", "Okay. Dinner is 8:00 PM to 10:00 PM on Friday.")]
+          : rest.startsWith("make") && rest.includes("sandwich") ? [out("ok", "Okay. Dinner starts at 8:00 PM on Friday.")]
           : rest.includes("win") || rest.includes("prize") ? [out("err", `Permission denied. ${FACTS.prizePool} is earned, not sudo'd.`)]
-          : [out("err", "guest is not in the sudoers file. This incident will be reported to the judges."), out("out", <span className="text-dim">hint: you don't need root to ship. try <b className="text-green">register</b>.</span>)];
+          : [out("err", "guest is not in the sudoers file. This incident will be reported to the judges."), out("out", <span className="text-dim">hint: you don't need root to ship. try <b className="text-green">cd announcements</b>.</span>)];
         break;
       }
       case "git":
         res = args[0] === "push"
-          ? [out("err", "error: failed to push to 'the-big-hack'. hint: your idea isn't submitted yet."), out("out", <>run <b className="text-green">register</b>, get shortlisted, then push from the venue on 20 Nov.</>)]
+          ? [out("err", "error: failed to push to 'the-big-hack'. Round 1 is closed."), out("out", <>run <b className="text-green">cd teams</b> to browse confirmed seats.</>)]
           : [out("out", "usage: git push (go on, try it)")];
         break;
       case "ship":
       case "npm":
         res = [
           out("out", "> the-big-hack@1.0.0 build"),
-          out("out", "compiling idea… waiting for review (shortlist after 10 nov)"),
-          out("ok", "if merged, build resumes 20 nov, 13:00 IST. you have 24h."),
+          out("out", "The confirmed team list is under `cd teams`. Check announcements for next steps."),
+          out("ok", "event schedule: 20–21 Nov at AIT. More details to come."),
         ];
         break;
       case "exit":
@@ -176,7 +172,7 @@ export default function Terminal() {
       default:
         res = [out("err", `command not found: ${cmd}. Type 'help'.`)];
     }
-    setLines((l) => [...l, echo, ...res]);
+    setLines((l) => [...l, echo, ...res].slice(-MAX_LINES));
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {

@@ -1,6 +1,7 @@
 import type { Route } from "./+types/prizes";
-import { PageHead, Pane, Prompt, RegisterBtn, TrackLabel } from "~/components/ui";
+import { PageHead, Pane, Prompt, TrackLabel } from "~/components/ui";
 import { FACTS, JUDGING, TRACKS } from "~/data/hack";
+import { T, useNow } from "~/lib/time";
 import { seo } from "~/lib/seo";
 
 export const meta: Route.MetaFunction = () =>
@@ -17,6 +18,9 @@ const RELEASES = [
 const Pending = () => <span aria-hidden className="inline-block size-3 shrink-0 rounded-full border-2 border-amber border-t-transparent motion-safe:animate-spin" />;
 
 export default function Prizes() {
+  const now = useNow(60_000);
+  const roundOneOpen = now === null || now < T.regClose;
+
   return (
     <>
       <PageHead
@@ -35,7 +39,6 @@ export default function Prizes() {
                 {FACTS.prizePool}
               </p>
             </div>
-            <RegisterBtn className="w-fit" />
           </Pane>
 
           <Pane title="releases" className="p-6 sm:p-8">
@@ -67,9 +70,8 @@ export default function Prizes() {
 
           <Pane className="overflow-hidden">
             <div className="flex items-center gap-5 border-b border-line bg-raise px-5 py-3 text-xs">
-              <span className="text-fg">◉ {TRACKS.length} open</span>
-              <span className="text-faint">✓ 0 closed</span>
-              <span className="ml-auto text-dim">round 1 closes 10 Nov</span>
+              <span className="text-fg">◉ {TRACKS.length} tracks</span>
+              <span className="ml-auto text-dim">{roundOneOpen ? "round 1 closes 10 Nov" : "round 1 closed"}</span>
             </div>
             <ul className="divide-y divide-line/60">
               {TRACKS.map((t, i) => (

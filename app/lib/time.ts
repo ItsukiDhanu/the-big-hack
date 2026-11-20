@@ -51,9 +51,3 @@ export function tminus(ms: number) {
 export function istClock(now: number) {
   return new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }).format(now);
 }
-
-/** Whether Round 1 (idea submission) is still open. Treated as open until hydrated, then re-checked every minute. */
-export function useRegistrationOpen() {
-  const now = useNow(60_000);
-  return now === null || now < T.regClose;
-}

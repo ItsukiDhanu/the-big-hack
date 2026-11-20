@@ -1,11 +1,11 @@
 import type { Route } from "./+types/schedule";
-import { PageHead, Pane, RegisterBtn } from "~/components/ui";
+import { PageHead, Pane } from "~/components/ui";
 import { SCHEDULE, TIMES, WINDOW_BREAKS, type Slot } from "~/data/hack";
 import { T, phaseAt, useNow } from "~/lib/time";
 import { seo } from "~/lib/seo";
 
 export const meta: Route.MetaFunction = () =>
-  seo({ title: "Schedule", path: "/schedule", description: "The Big Hack 2.0 timeline: Round 1 ideas due 10 Nov, then the shortlist, then Round 2 from 20 Nov 9:00 AM to 21 Nov 6:00 PM, with a 24-hour hacking window from 1:00 PM Friday to 1:00 PM Saturday." });
+  seo({ title: "Schedule", path: "/schedule", description: "The Big Hack 2.0 timeline: registration begins 20 November at 8:00 AM, hacking runs from 1:00 PM Friday to 1:00 PM Saturday, followed by final presentations and valedictory at 3:00 PM." });
 
 /** Parse "1:00 PM" on a given day (20 or 21 Nov) into a timestamp. */
 function at(day: 20 | 21, time: string) {
@@ -92,7 +92,7 @@ export default function Schedule() {
         path="~/schedule"
         cmd="git log --graph --all"
         title="Schedule"
-        intro={<>Round 1 runs online until 10 November. Then, for shortlisted teams, two days and one continuous build: at 1:00 PM Friday the <span className="text-green">hack/24h</span> branch forks off main, and it merges back at 1:00 PM Saturday. Final timings are shared with shortlisted teams.</>}
+        intro={<>Registration begins at 8:00 AM on Friday, 20 November. The 24-hour <span className="text-green">hack/24h</span> window starts at 1:00 PM Friday and ends at 1:00 PM Saturday, followed by the Top 10 presentations and valedictory.</>}
       />
 
       <div className="wrap space-y-14">
@@ -130,6 +130,7 @@ export default function Schedule() {
                       <span className={`hidden sm:block ${tag.cls}`}>{tag.tag}</span>
                       <span className={e.role === "fork" || e.role === "merge" ? "font-bold text-green" : "text-fg"}>
                         {e.title}
+                        {"note" in e && e.note && <span className="block text-xs font-normal leading-relaxed text-dim">{e.note}</span>}
                         {e.role === "fork" && <span className="ml-2 inline-block rounded-[3px] border border-green/50 px-1.5 text-[11px] font-normal">git checkout -b hack/24h</span>}
                         {e.role === "merge" && <span className="ml-2 inline-block rounded-[3px] border border-green/50 px-1.5 text-[11px] font-normal">git merge hack/24h</span>}
                       </span>
@@ -145,10 +146,7 @@ export default function Schedule() {
           </ol>
         </Pane>
 
-        <div className="flex flex-wrap items-center gap-4">
-          <RegisterBtn />
-          <p className="text-sm text-dim">Round 2 venue to be announced. Times are IST.</p>
-        </div>
+        <p className="text-sm text-dim">Round 2 venue to be announced. Times are IST.</p>
       </div>
     </>
   );
@@ -159,7 +157,7 @@ function Progress({ now }: { now: number | null }) {
   const phase = now === null ? "before" : phaseAt(now);
   const elapsedH = now === null ? 0 : Math.min(24, Math.max(0, (now - T.hackStart) / 3_600_000));
   const cells = Array.from({ length: 24 }, (_, h) => {
-    const isBreak = WINDOW_BREAKS.some((b) => h < b.to && h + 1 > b.from);
+    const isBreak = WINDOW_BREAKS.some((b) => Math.floor(b.at) === h);
     if (h < Math.floor(elapsedH)) return { ch: "█", cls: "text-green" };
     if (isBreak) return { ch: "▒", cls: "text-amber/70" };
     return { ch: "░", cls: "text-faint" };
@@ -184,12 +182,12 @@ function Progress({ now }: { now: number | null }) {
       </div>
       <div className="mt-3 flex flex-wrap justify-between gap-2 text-xs text-dim">
         <span><span className="text-green">FRI 13:00</span> fork</span>
-        <span>1:00 AM midnight coffee</span>
+        <span>1:00 AM midnight tea</span>
         <span>merge <span className="text-green">SAT 13:00</span></span>
       </div>
       <ul className="mt-6 grid gap-2 border-t border-line pt-5 text-xs text-dim sm:grid-cols-3">
         <li><span className="text-green">█</span> built</li>
-        <li><span className="text-amber/70">▒</span> food or coffee break</li>
+        <li><span className="text-amber/70">▒</span> scheduled meal or tea</li>
         <li><span className="text-faint">░</span> still to go</li>
       </ul>
       <p className="sr-only">Hacking runs from {TIMES.hackStart} to {TIMES.hackEnd}. Breaks: {WINDOW_BREAKS.map((b) => b.label).join(", ")}.</p>

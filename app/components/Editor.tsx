@@ -23,7 +23,7 @@ const FILES: File[] = [
       <><F c="clock" />.<F c="start" />(<S c='"2026-11-20T13:00+05:30"' />, {"{"} hours: <N c={24} /> {"}"});</>,
       <><K c="while" /> (clock.remaining {">"} <N c={0} />) {"{"}</>,
       <>  <F c="build" />(<F c="assigned" />(team)); <C c="// our problem, our track" /></>,
-      <>  <K c="if" /> (clock.<F c="is" />(<S c='"01:00"' />)) <F c="coffee" />(); <C c="// midnight coffee" /></>,
+      <>  <K c="if" /> (clock.<F c="is" />(<S c='"01:00"' />)) <F c="tea" />(); <C c="// midnight tea" /></>,
       <>{"}"}</>,
       <></>,
       <><F c="ship" />({"{"} repo, readme, demo {"}"}); <C c="// before 13:00 Saturday" /></>,

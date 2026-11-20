@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router";
-import { ArrowUpRight } from "lucide-react";
-import { PAGES, REGISTER_URL } from "~/data/hack";
-import { useRegistrationOpen } from "~/lib/time";
-import { RegisterBtn } from "./ui";
+import { PAGES } from "~/data/hack";
 
-/** tmux-style tab bar. Number keys 1–6 switch pages when you're not typing. */
+/** tmux-style tab bar. Number keys 1–7 switch pages when you're not typing. */
 export default function TopBar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const regOpen = useRegistrationOpen();
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -27,12 +23,23 @@ export default function TopBar() {
   }, [navigate]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
   }, [open]);
 
-  const current = PAGES.find((p) => p.to === pathname);
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
+
+  const current = PAGES.find((p) => p.to === pathname) ?? (pathname.startsWith("/teams") ? PAGES.find((p) => p.name === "teams") : undefined);
 
   return (
+    <>
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md">
       <nav aria-label="Main" className="wrap flex h-14 items-center gap-3">
         <Link to="/" className="flex min-h-11 shrink-0 items-center gap-2 pr-2" aria-label="The Big Hack 2.0, home">
@@ -64,20 +71,6 @@ export default function TopBar() {
 
         <span className="flex-1 truncate text-sm text-dim lg:hidden">~/{current?.name === "home" ? "" : current?.name ?? ""}</span>
 
-        {regOpen ? (
-          <a
-            href={REGISTER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden min-h-10 items-center gap-1.5 rounded-[4px] bg-green px-3.5 text-[13px] font-semibold text-green-ink transition-shadow hover:shadow-[0_0_20px_rgb(140_255_122/0.4)] sm:inline-flex"
-          >
-            ./submit
-            <ArrowUpRight aria-hidden className="size-4" />
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        ) : (
-          <span className="hidden min-h-10 items-center rounded-[4px] border border-line-hi px-3.5 text-[13px] text-faint sm:inline-flex">round 1 closed</span>
-        )}
         <button
           type="button"
           aria-expanded={open}
@@ -88,27 +81,29 @@ export default function TopBar() {
           {open ? "[x] close" : "[≡] menu"}
         </button>
       </nav>
-
-      {open && (
-        <div id="mobile-menu" className="fixed inset-x-0 top-14 bottom-0 overflow-y-auto border-t border-line bg-bg px-4 pt-6 pb-24 lg:hidden">
-          <p className="text-sm text-dim">$ ls ~</p>
-          <ul className="mt-4">
-            {PAGES.map((p) => (
-              <li key={p.to}>
-                <NavLink
-                  to={p.to}
-                  end
-                  className={({ isActive }) => `flex min-h-14 items-center gap-3 border-b border-line text-2xl ${isActive ? "text-green" : "text-fg"}`}
-                >
-                  <span className="text-base text-faint">{p.key}</span>
-                  cd {p.name}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-          <RegisterBtn className="mt-8 flex min-h-12 w-full" />
-        </div>
-      )}
     </header>
+    <div
+      id="mobile-menu"
+      hidden={!open}
+      className={open ? "fixed inset-x-0 top-14 bottom-8 z-40 overflow-y-auto overscroll-contain border-t border-line bg-bg px-4 pt-6 pb-24 lg:hidden" : "hidden"}
+    >
+      <p className="text-sm text-dim">$ ls ~</p>
+      <ul className="mt-4">
+        {PAGES.map((p) => (
+          <li key={p.to}>
+            <NavLink
+              to={p.to}
+              end
+              onClick={() => setOpen(false)}
+              className={({ isActive }) => `flex min-h-14 items-center gap-3 border-b border-line text-2xl ${isActive ? "text-green" : "text-fg"}`}
+            >
+              <span className="text-base text-faint">{p.key}</span>
+              cd {p.name}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+    </>
   );
 }

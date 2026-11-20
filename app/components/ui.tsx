@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
-import { REGISTER_URL, TRACKS } from "~/data/hack";
-import { useRegistrationOpen } from "~/lib/time";
+import { TRACKS } from "~/data/hack";
 
 const isExternal = (href: string) => /^https?:/.test(href);
 
@@ -82,17 +81,6 @@ export function Pane({ title, children, className = "", as: Tag = "div" }: { tit
 /** Value, or a "null // TBA" marker for unconfirmed details. */
 export function Tba({ value }: { value: string | null }) {
   return value ? <>{value}</> : <span className="text-faint">null <span className="text-dim">// to be announced</span></span>;
-}
-
-/** The Round 1 submit button. After the deadline it turns into a disabled "round 1 closed" label. */
-export function RegisterBtn({ className = "", label = "./submit --idea" }: { className?: string; label?: string }) {
-  const open = useRegistrationOpen();
-  if (open) return <Btn href={REGISTER_URL} className={className}>{label}</Btn>;
-  return (
-    <span aria-disabled="true" className={`inline-flex min-h-11 cursor-not-allowed items-center justify-center whitespace-nowrap rounded-[4px] border border-line-hi px-4 text-sm font-semibold text-faint ${className}`}>
-      round 1 closed
-    </span>
-  );
 }
 
 const TRACK_CLS: Record<(typeof TRACKS)[number]["color"], string> = {

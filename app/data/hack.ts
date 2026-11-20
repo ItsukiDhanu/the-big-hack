@@ -9,15 +9,12 @@ export const SITE = {
   mainSite: "https://tech-habba26.vercel.app",
 };
 
-/** Round 1 idea submission (free). */
-export const REGISTER_URL = "https://forms.gle/LzqdD5BMMw4rEb2m6";
-
 /** All instants in IST (+05:30). */
 export const TIMES = {
-  start: "2026-11-20T09:00:00+05:30",
+  start: "2026-11-20T08:00:00+05:30",
   hackStart: "2026-11-20T13:00:00+05:30",
   hackEnd: "2026-11-21T13:00:00+05:30",
-  end: "2026-11-21T18:00:00+05:30",
+  end: "2026-11-21T15:00:00+05:30",
   /** Round 1 (online idea submission) closes at the end of 10 Nov. */
   registrationCloses: "2026-11-10T23:59:59+05:30",
 };
@@ -36,8 +33,7 @@ export const FACTS = {
 };
 
 /**
- * Round 2 details, filled in by the organisers once the shortlist is out.
- * Setting `paymentUrl` turns on the "confirm your spot" button on the register page (needs a redeploy).
+ * Round 2 details, filled in by the organisers when confirmed.
  */
 export const ROUND2 = {
   shortlistDate: null as string | null,
@@ -48,7 +44,7 @@ export const ROUND2 = {
 
 /** The pipeline every team goes through. */
 export const ROUNDS = [
-  { id: "round-1/idea", name: "Round 1: idea", mode: "online", fee: "free", when: "now → 10 Nov", note: "Pick a track, submit your idea" },
+  { id: "round-1/idea", name: "Round 1: idea", mode: "online", fee: "free", when: "until 10 Nov", note: "Pick a track, submit your idea" },
   { id: "review/shortlist", name: "Shortlist", mode: "review", fee: null, when: "a few days after 10 Nov", note: "Organisers review every idea" },
   { id: "round-2/build", name: "Round 2: build", mode: "offline, AIT", fee: "₹800 / team", when: "20–21 Nov", note: "Build an assigned problem in 24h" },
 ];
@@ -62,39 +58,41 @@ export const TRACKS = [
   { slug: "cybersecurity", name: "Cybersecurity AI Agents", blurb: "Agents that detect, investigate and respond to threats, or keep other agents safe.", color: "magenta" },
 ] as const;
 
-export type Slot = { time: string; end?: string; title: string; kind?: "milestone" | "meal" | "ceremony" };
+export type Slot = { time: string; end?: string; title: string; note?: string; kind?: "milestone" | "meal" | "ceremony" };
 
 export const SCHEDULE: { day: string; date: string; slots: Slot[] }[] = [
   {
     day: "Day 1",
     date: "Friday, 20 November",
     slots: [
-      { time: "9:00 AM", end: "12:00 PM", title: "Inauguration and briefing", kind: "ceremony" },
-      { time: "12:00 PM", end: "1:00 PM", title: "Break" },
-      { time: "1:00 PM", title: "Hacking begins", kind: "milestone" },
-      { time: "5:30 PM", end: "6:30 PM", title: "Evening snacks", kind: "meal" },
-      { time: "8:00 PM", end: "10:00 PM", title: "Dinner", kind: "meal" },
+      { time: "8:00 AM", end: "9:30 AM", title: "Registration Desk", note: "Open till 9:30 AM", kind: "ceremony" },
+      { time: "10:00 AM", end: "12:00 PM", title: "Inauguration & Sponsor Talks", note: "Till 12:00 PM", kind: "ceremony" },
+      { time: "1:00 PM", title: "Hackathon Starts", note: "24-hour clock begins", kind: "milestone" },
+      { time: "5:00 PM", title: "Google Form + Snacks", note: "Submit Track, Problem Statement & GitHub", kind: "meal" },
+      { time: "8:00 PM", title: "Dinner", note: "Refuel for the night", kind: "meal" },
+      { time: "9:30 PM", title: "Round 1 Evaluation", note: "CSE + Mentor faculty", kind: "ceremony" },
     ],
   },
   {
     day: "Day 2",
     date: "Saturday, 21 November",
     slots: [
-      { time: "1:00 AM", end: "2:00 AM", title: "Midnight coffee", kind: "meal" },
-      { time: "8:00 AM", end: "9:30 AM", title: "Breakfast", kind: "meal" },
-      { time: "1:00 PM", title: "Hacking ends, top projects pitch", kind: "milestone" },
-      { time: "1:00 PM", end: "2:00 PM", title: "Lunch", kind: "meal" },
-      { time: "3:00 PM", end: "6:00 PM", title: "Valedictory and closing", kind: "ceremony" },
+      { time: "1:00 AM", title: "Midnight Tea", note: "Day 2 begins", kind: "meal" },
+      { time: "5:00 AM", title: "Morning Tea", note: "Early-morning break before the final push", kind: "meal" },
+      { time: "11:00 AM", title: "Round 2 Evaluation", note: "CSE faculty", kind: "ceremony" },
+      { time: "1:00 PM", title: "Hackathon Ends", note: "Coding stops", kind: "milestone" },
+      { time: "1:15 PM", title: "Round 3 · Top 10 Teams", note: "Final presentations", kind: "ceremony" },
+      { time: "3:00 PM", title: "Valedictory", note: "Winners announced", kind: "ceremony" },
     ],
   },
 ];
 
-/** Breaks inside the 24-hour hacking window, as hour offsets from 1:00 PM on day 1. */
+/** Break start times inside the 24-hour window, as hour offsets from 1:00 PM on day 1. */
 export const WINDOW_BREAKS = [
-  { label: "Evening snacks", from: 4.5, to: 5.5 },
-  { label: "Dinner", from: 7, to: 9 },
-  { label: "Midnight coffee", from: 12, to: 13 },
-  { label: "Breakfast", from: 19, to: 20.5 },
+  { label: "Google Form + Snacks", at: 4 },
+  { label: "Dinner", at: 7 },
+  { label: "Midnight Tea", at: 12 },
+  { label: "Morning Tea", at: 16 },
 ];
 
 export const RULES = [
@@ -122,19 +120,19 @@ export const JUDGING = [
 export const BRING = ["Laptops", "Chargers", "Extension boards", "College ID cards"];
 
 export const FAQS = [
-  { q: "How does it work?", a: "Two rounds. Round 1 is free and online: pick a track and submit your idea by 10 November. Shortlisted teams go to Round 2, the 24-hour offline hackathon at AIT on 20–21 November." },
-  { q: "How much does it cost?", a: "Round 1 is free. Only shortlisted teams pay, ₹800 per team (not per person), to confirm their Round 2 spot. That covers evening snacks, dinner, midnight coffee, breakfast and lunch." },
+  { q: "How does it work?", a: "Round 1 is closed and both shortlist phases are published: 50 teams in Phase 1 and 40 in Phase 2. Only shortlisted teams may pay ₹800 per team and upload payment proof. Organisers review each proof; teams that miss the payment deadline may lose their spot." },
+  { q: "How much does it cost?", a: "Round 1 is free. Only shortlisted teams pay, ₹800 per team (not per person), to confirm their Round 2 spot. The event timeline includes snacks, dinner, midnight tea and morning tea." },
   { q: "What are the tracks?", a: "Five, all about AI agents: Autonomous AI Agents, Voice & Multimodal AI Agents, Healthcare AI Agents, Smart Mobility & Infrastructure AI Agents, and Cybersecurity AI Agents. Pick one when you submit." },
-  { q: "What do we submit in Round 1?", a: "Your team details, your track and your idea: the problem, how your agent solves it and what you plan to build it with. It's all in the one Google Form." },
-  { q: "When does Round 1 close?", a: "10 November 2026 at 11:59 PM IST. After that the form closes and the submit buttons on this site switch off." },
-  { q: "When is the shortlist announced, and how do we pay?", a: "A few days after Round 1 closes. Shortlisted teams are told directly, and the payment link to confirm your spot goes live on the register page." },
-  { q: "What if we're not shortlisted?", a: "You don't pay anything. There are twelve other Tech Habba 2.0 events from 19 to 21 November you can still join." },
+  { q: "What did teams submit in Round 1?", a: "Teams submitted their details, selected a track and described their idea in the Google Form. Round 1 is now closed." },
+  { q: "When did Round 1 close?", a: "Round 1 closed on 10 November 2026 at 11:59 PM IST." },
+  { q: "When is the next shortlist announcement, and how do we pay?", a: "The shortlist has been published. Use your team portal link and sign in with the leader’s registered email to check your status, pay ₹800 per team and upload a payment screenshot for organiser review." },
+  { q: "What happens in Phase 2?", a: "Phase 2 adds 40 shortlisted teams. Team names and live seat statuses are listed on the Teams page. During Round 2, organisers assign each team its problem statement and track." },
   { q: "Who can take part?", a: "Any college student. You don't need to be from AIT. Every team member needs a valid college ID card at check-in." },
   { q: "How big can a team be?", a: "Two to four people. Solo entries aren't accepted, so find at least one teammate before you submit." },
   { q: "Do we build our Round 1 idea in Round 2?", a: "No. Round 1 is how we shortlist. In Round 2 the organisers give each team its problem statement and track, and that's what you build." },
   { q: "Can we start building before the event?", a: "Plan as much as you like, but all project code has to be written during the 24 hours. You can use open-source libraries, frameworks and public APIs." },
   { q: "What do we have to submit?", a: "A code repository, a short README and a working demo, before hacking ends at 1:00 PM on 21 November. Late submissions are not judged." },
-  { q: "Do we stay overnight?", a: "Yes. Hacking runs straight through from 1:00 PM on Friday to 1:00 PM on Saturday, with a midnight coffee break at 1:00 AM." },
+  { q: "Do we stay overnight?", a: "Yes. Hacking runs straight through from 1:00 PM on Friday to 1:00 PM on Saturday, with midnight tea at 1:00 AM and morning tea at 5:00 AM." },
 ];
 
 export const CONTACTS = [
@@ -156,10 +154,8 @@ export const CLUB = {
 
 /** Listed as Tech Habba partners (previous edition); not yet confirmed as Big Hack sponsors. */
 export const PARTNERS = [
-  { name: "AMD", role: "Global computing and semiconductor partner", logo: "/images/sponsors/amd.svg" },
   { name: "IBM", role: "Enterprise cloud and cognitive solutions partner", logo: "/images/sponsors/ibm.svg" },
   { name: "Devfolio", role: "Hackathon platform partner", logo: "/images/sponsors/devfolio.svg" },
-  { name: "CodeChef", role: "Competitive programming partner", logo: "/images/sponsors/codechef.svg" },
   { name: "IEEE Acharya Student Branch", role: "Technical accreditation and chapter partner", logo: "/images/sponsors/ieee.svg" },
 ];
 
@@ -186,5 +182,105 @@ export const PAGES = [
   { key: "3", to: "/prizes", name: "prizes", label: "Prizes & tracks" },
   { key: "4", to: "/rules", name: "rules", label: "Rules" },
   { key: "5", to: "/faq", name: "faq", label: "FAQ" },
-  { key: "6", to: "/register", name: "register", label: "Register" },
+  { key: "6", to: "/announcements", name: "announcements", label: "Announcements" },
+  { key: "7", to: "/teams/confirmed", name: "teams", label: "Teams" },
+  { key: "8", to: "/register", name: "contacts", label: "Event contacts" },
 ];
+
+/** Phase 1 shortlist, transcribed from the first 50 Google Form selections in the final lists PDF. */
+export const PHASE_ONE_TEAMS = [
+  "BackLog Coders",
+  "NeXGen Coder’s",
+  "FantasticFour",
+  "Bug Bounty Hunters",
+  "NeuralNexus",
+  "8-Bit",
+  "Innovexa",
+  "Hash Squad",
+  "Galactus",
+  "Deploy Or Die",
+  "Codenexus",
+  "Dancing Burgers",
+  "divas debug",
+  "Connecters",
+  "The Chip Architects",
+  "TEAM LEVI",
+  "Tekora",
+  "AADHA",
+  "Stark Industry Interns",
+  "Zerovant",
+  "Quantum minds",
+  "NEURALMAXXERS",
+  "AURA++",
+  "Ducks can build anything",
+  "Udaan",
+  "Sankalp",
+  "Code Injectors",
+  "BLAZE",
+  "Skuld",
+  "MR ROBOT",
+  "AGRIMITRA",
+  "SoCalledEngineers",
+  "TeamUltron",
+  "NoCode",
+  "BNKV",
+  "Coders club",
+  "COGNIX",
+  "Singularity",
+  "TEAM ECHO",
+  "Prism Talons",
+  "Liger Legends 🦁",
+  "YANCIORA",
+  "PRANA",
+  "Recursion Rebbel",
+  "AetherCoders",
+  "OmniGrid AI",
+  "NitroXSpark",
+  "onyx",
+  "Neuronova",
+  "CoderX",
+] as const;
+
+/** Phase 2 shortlist, deduplicated from the supplied registrations and completed with Athora. */
+export const PHASE_TWO_TEAMS = [
+  "TEAM DRAGON",
+  "Pragyana",
+  "Goofy Sockets",
+  "CyberdyneSystems",
+  "DATAMAXXERS",
+  "WAKANDA'S VISION",
+  "PULSEGRID",
+  "Alpha",
+  "Team Nova",
+  "Sophomores",
+  "Byteinit",
+  "Byte_Force",
+  "Berry Mappemonde",
+  "Glitch",
+  "TECH EXPLORERS",
+  "Team too soon",
+  "ANVORA",
+  "NONAME",
+  "SentinentX",
+  "KRYVEXIS",
+  "KERNEL CORE",
+  "ModiFY",
+  "Team IKF",
+  "SYNERGY",
+  "TroubleMakers",
+  "Team Flute",
+  "Logic Legends",
+  "Ctrl Freaks",
+  "Revenant",
+  "Binary Bunch",
+  "FlowXenes",
+  "StarNova",
+  "AAZHI",
+  "Black OUT",
+  "CODE CORTEX",
+  "Dual codders",
+  "Squad 0",
+  "Tux",
+  "Pocolocos",
+  "Athora",
+] as const;

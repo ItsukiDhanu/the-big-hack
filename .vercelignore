@@ -2,3 +2,10 @@ graphify-out
 node_modules
 build
 .react-router
+.vercel
+.git
+.env*
+.admin-password
+*.csv
+/*.pdf
+*.png

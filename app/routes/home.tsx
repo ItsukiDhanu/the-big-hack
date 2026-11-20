@@ -4,19 +4,19 @@ import AsciiTitle from "~/components/AsciiTitle";
 import Terminal from "~/components/Terminal";
 import Editor from "~/components/Editor";
 import Pipeline from "~/components/Pipeline";
-import { A, Btn, Pane, Prompt, RegisterBtn, TrackLabel } from "~/components/ui";
+import { A, Btn, Pane, Prompt, TrackLabel } from "~/components/ui";
 import { FACTS, FAQS, OTHER_EVENTS, PARTNERS, SCHEDULE, SITE, TRACKS } from "~/data/hack";
 import { T, pad, phaseAt, split, useNow } from "~/lib/time";
 import { seo } from "~/lib/seo";
 
 export const meta: Route.MetaFunction = () =>
-  seo({ description: "The Big Hack 2.0: Tech Habba 2.0's 24-hour flagship hackathon at Acharya Institute of Technology, Bengaluru. Round 1 is free and online: pick an AI-agent track and submit your idea by 10 Nov. Shortlisted teams build an assigned problem statement in 24 hours on 20–21 November 2026. ₹50,000 prize pool." });
+  seo({ description: "The Big Hack 2026 shortlist, team portal, payment review steps and event information. Hosted by Tech Habba 2.0 at Acharya Institute of Technology, Bengaluru." });
 
 const BOOT = [
   { s: "✓", t: "scaffolding team ......... 2–4 members", c: "text-green" },
   { s: "✓", t: "installing ideas ......... 5 AI-agent tracks", c: "text-green" },
   { s: "✓", t: "provisioning prize pool .. ₹50,000", c: "text-green" },
-  { s: "!", t: "peer dep: coffee ......... refill 01:00", c: "text-amber" },
+  { s: "!", t: "peer dep: tea ............ refill 01:00", c: "text-amber" },
   { s: "→", t: "ready. build starts 20 nov 13:00 IST", c: "text-cyan" },
 ];
 
@@ -63,12 +63,12 @@ function Hero() {
               <span className="text-dim">Tech Habba 2.0's flagship hackathon. 20–21 Nov 2026, AIT Bengaluru.</span>
             </p>
             <p className="mt-4 max-w-[54ch] text-sm leading-relaxed text-dim">
-              <span className="text-green">Round 1 is free and online.</span> Pick an AI-agent track and submit your idea by 10 Nov.
-              Shortlisted teams get a problem statement from us and build it in 24 hours at AIT.
+              <span className="text-green">Both shortlist phases are published.</span> Browse the teams, check your status and see how payment review confirms your seat.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <RegisterBtn />
-              <Btn to="/register" variant="ghost">how it works</Btn>
+              <Btn to="/teams/confirmed" variant="ghost">confirmed teams</Btn>
+              <Btn to="/announcements" variant="ghost">how it works</Btn>
+              <Btn to="/register" variant="ghost">event contacts</Btn>
             </div>
           </div>
           <Countdown />
@@ -121,7 +121,7 @@ function Countdown() {
 
 /* -------------------------------------------------------------- ticker */
 
-const TICKER = ["round 1 is free", "5 AI-agent tracks", "submit ideas by 10 nov", "shortlist → 24h at AIT", `${FACTS.prizePool} prize pool`, "teams of 2–4", "open to every college", "20–21 nov 2026", "midnight coffee at 1 AM"];
+const TICKER = ["phase 1: 50 teams", "phase 2: 40 teams", "shortlisted teams pay ₹800/team", "5 AI-agent tracks", `${FACTS.prizePool} prize pool`, "teams of 2–4", "open to every college", "20–21 nov 2026", "midnight tea at 1 AM", "morning tea at 5 AM"];
 
 function Ticker() {
   const run = [...TICKER, ...TICKER];
@@ -147,8 +147,8 @@ function Rounds() {
       <Prompt cmd="cat .github/workflows/bighack.yml" />
       <h2 id="rounds-h" className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Two rounds. The first one's free.</h2>
       <p className="mt-4 max-w-[60ch] leading-relaxed text-dim">
-        Submit your idea online for free. The organisers shortlist the best ones, and only those teams pay{" "}
-        {FACTS.round2Fee} for Round 2: 24 hours at AIT, building a problem statement and track we assign.
+        Round 1 was free and online. The two shortlist phases are published: 50 teams in Phase 1 and 40 in Phase 2.
+        Shortlisted teams can check their status and payment review in the team portal.
       </p>
       <Pipeline className="mt-10" />
       <div className="mt-10">
@@ -211,13 +211,13 @@ function Overview() {
 const COMMITS = [
   { h: "a1f3c9e", t: "fri 13:04", m: "chore: init repo, assigned problem checked out", tag: "HEAD~11" },
   { h: "b72d014", t: "fri 14:30", m: "feat: wireframes and data model" },
-  { h: "c0e88a1", t: "fri 17:40", m: "chore: evening snacks", meal: true },
+  { h: "c0e88a1", t: "fri 17:00", m: "chore: Google Form + snacks", meal: true },
   { h: "d41f6b2", t: "fri 19:15", m: "feat: core flow works end to end" },
-  { h: "e9a0c33", t: "fri 21:10", m: "chore: dinner", meal: true },
-  { h: "f15be77", t: "sat 01:20", m: "perf: midnight coffee, second wind", meal: true },
-  { h: "0a7d2c8", t: "sat 04:02", m: "fix: it works on my machine. and now on theirs" },
-  { h: "1bc93fe", t: "sat 08:30", m: "chore: breakfast", meal: true },
-  { h: "2d5e019", t: "sat 11:47", m: "docs: README and demo video" },
+  { h: "e9a0c33", t: "fri 20:00", m: "chore: dinner", meal: true },
+  { h: "f15be77", t: "fri 21:30", m: "test: Round 1 evaluation" },
+  { h: "0a7d2c8", t: "sat 01:00", m: "chore: midnight tea", meal: true },
+  { h: "1bc93fe", t: "sat 05:00", m: "chore: morning tea", meal: true },
+  { h: "2d5e019", t: "sat 11:00", m: "test: Round 2 evaluation" },
   { h: "3f08ab4", t: "sat 12:58", m: "release: v1.0.0, submitted", tag: "HEAD", win: true },
 ];
 
@@ -267,8 +267,8 @@ function Shell() {
           <h2 id="shell-h" className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">Don't want to read? Ask the shell.</h2>
           <p className="mt-4 max-w-[40ch] leading-relaxed text-dim">
             Type <span className="text-green">help</span>, <span className="text-green">schedule</span> or{" "}
-            <span className="text-green">tracks</span>. <span className="text-green">register</span> opens the Round 1 form, and{" "}
-            <span className="text-green">cd rules</span> takes you to the rules page. Tab completes and ↑ recalls history.
+            <span className="text-green">tracks</span>. <span className="text-green">cd teams</span> lists shortlisted teams;{" "}
+            <span className="text-green">cd announcements</span> explains team access, payment review and seat confirmation. Tab completes and ↑ recalls history.
           </p>
         </div>
         <Terminal />
@@ -284,7 +284,8 @@ const DIRS = [
   { to: "/prizes", name: "prizes/", desc: "₹50,000 pool, the 5 tracks and judging", meta: `${TRACKS.length} tracks` },
   { to: "/rules", name: "rules/", desc: "The manual: eligibility, rules, submission", meta: "man page" },
   { to: "/faq", name: "faq/", desc: "Rounds, tracks, fees, shortlist, overnight", meta: `${FAQS.length} answers` },
-  { to: "/register", name: "register/", desc: "Submit your idea (free), then confirm if shortlisted", meta: "round 1 free" },
+  { to: "/announcements", name: "announcements/", desc: "Shortlist, payment review and seat confirmation", meta: "how it works" },
+  { to: "/register", name: "contacts/", desc: "Event head contact details and round information", meta: "event info" },
 ];
 
 function Directory() {

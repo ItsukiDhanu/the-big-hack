@@ -96,14 +96,14 @@ export default function Rules() {
               <ul className="space-y-1">
                 {BRING.map((b) => <li key={b}><span className="text-green">• </span>{b}</li>)}
               </ul>
-              <p>The prize split and final timings are shared with shortlisted teams.</p>
+              <p>The event timeline and final timings are listed on the <Link to="/schedule" className="text-cyan underline underline-offset-4">schedule page</Link>.</p>
             </Sect>
 
             <Sect name="SEE ALSO">
               <p>
                 <Link to="/faq" className="text-cyan underline underline-offset-4">faq(1)</Link>,{" "}
                 <Link to="/schedule" className="text-cyan underline underline-offset-4">schedule(1)</Link>,{" "}
-                <Link to="/register" className="text-cyan underline underline-offset-4">register(1)</Link>
+                <Link to="/announcements" className="text-cyan underline underline-offset-4">announcements(1)</Link>
               </p>
             </Sect>
           </div>

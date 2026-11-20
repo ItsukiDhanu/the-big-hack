@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-12 flex flex-col gap-2 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 Tech Habba. Acharya Institutes × The Big O. Press 1–6 to switch pages.</p>
+          <p>© 2026 Tech Habba. Acharya Institutes × The Big O. Press 1–8 to switch pages.</p>
           <p>
             <span className="text-faint">// git blame:</span>{" "}
             <a href="mailto:dhanushvpshetty@gmail.com" className="inline-flex min-h-9 items-center text-dim hover:text-green">dhanushvpshetty@gmail.com</a>

@@ -1,5 +1,5 @@
 import type { Route } from "./+types/faq";
-import { Btn, PageHead, RegisterBtn } from "~/components/ui";
+import { Btn, PageHead } from "~/components/ui";
 import { FAQS } from "~/data/hack";
 import { seo } from "~/lib/seo";
 
@@ -9,7 +9,7 @@ export const meta: Route.MetaFunction = () =>
 export default function Faq() {
   return (
     <>
-      <PageHead path="~/faq" cmd="bighack --faq" title="Questions" intro="The things people usually ask. Still stuck? The event heads are on the register page." />
+      <PageHead path="~/faq" cmd="bighack --faq" title="Questions" intro="The things people usually ask. Still stuck? Contact the event heads from the contacts page." />
 
       <div className="wrap">
         <ul className="pane divide-y divide-line">
@@ -31,7 +31,8 @@ export default function Faq() {
           ))}
         </ul>
         <div className="mt-10 flex flex-wrap gap-3">
-          <RegisterBtn />
+          <Btn to="/teams/confirmed" variant="ghost">confirmed teams</Btn>
+          <Btn to="/announcements" variant="ghost">how it works</Btn>
           <Btn to="/rules" variant="ghost">man bighack</Btn>
         </div>
       </div>
